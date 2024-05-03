@@ -1,6 +1,6 @@
-import express, { Request, Response } from 'express';
+import express, { Router, Request, Response } from 'express';
 
-const UserRouter = () => {
+const UserRouter = (): Router => {
     const router = express.Router();
 
     router.post("/register", (req: Request, res: Response) => {
@@ -28,7 +28,7 @@ const UserRouter = () => {
         })
     })
 
-    return router
-}
+    return router;
+};
 
 export default UserRouter;
