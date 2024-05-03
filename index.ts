@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
 
+import DbInitializer from './src/database/init';
+
 //create an app
 const app = express();
 
@@ -35,8 +37,9 @@ const PORT = process.env.PORT || 5000;
 
 const StartApp = async function () {
   try {
+    await DbInitializer();
     app.listen(PORT, () => {
-      console.log('Connection has been established successfully.');
+      console.log('App listening on port:', PORT);
     });
   } catch (error) {
     console.error('Unable to connect to the database:', error);
