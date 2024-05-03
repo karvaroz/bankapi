@@ -2,6 +2,7 @@ import express, { Request, Response, Express, NextFunction } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
+import UserRouter from './src/router/UserRouter';
 
 import DbInitializer from './src/database/init';
 
@@ -27,6 +28,7 @@ app.use((err: TypeError, req: Request, res: Response, next: NextFunction) => {
   } catch (e) {}
 });
 
+app.use("/api/user", UserRouter)
 
 
 app.get('/', (req : Request, res : Response) => {
