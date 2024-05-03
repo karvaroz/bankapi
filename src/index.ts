@@ -2,9 +2,9 @@ import express, { Request, Response, Express, NextFunction } from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
-import UserRouter from './src/router/UserRouter';
+import UserRouter from './router/UserRouter';
 
-import DbInitializer from './src/database/init';
+import DbInitializer from './database/init';
 
 //create an app
 const app = express();
