@@ -1,31 +1,29 @@
 import express, { Router, Request, Response } from 'express';
 
+import UserController from '../controllers/UserController';
+import UserService from '../services/UserService';
+
 const UserRouter = (): Router => {
     const router = express.Router();
 
+    const userService = new UserService()
+    const userController = new UserController(userService)
+    
     router.post("/register", (req: Request, res: Response) => {
-        res.send({
-            message: "Registration successfully"
-        })
+        return userController.register(req, res)
     })
 
     router.post("/login", (req: Request, res: Response) => {
-        res.send({
-            message: "Login successful"
-        })
+        return userController.login(req, res)
     })
 
     
     router.post("/forgot-password", (req: Request, res: Response) => {
-        res.send({
-            message: "Forgot Password mail sent successfully"
-        })
+        return userController.forgotPassword(req, res)
     })
 
     router.post("/reset-password", (req: Request, res: Response) => {
-        res.send({
-            message: "Reset password successfully"
-        })
+        return userController.resetPassword(req, res)
     })
 
     return router;
