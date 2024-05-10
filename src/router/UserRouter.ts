@@ -1,32 +1,31 @@
-import express, { Router, Request, Response } from 'express';
+import express, { Router, Request, Response } from 'express'
 
-import UserController from '../controllers/UserController';
-import UserService from '../services/UserService';
+import UserController from '../controllers/UserController'
+import UserService from '../services/UserService'
 
 const UserRouter = (): Router => {
-    const router = express.Router();
+  const router = express.Router()
 
-    const userService = new UserService()
-    const userController = new UserController(userService)
-    
-    router.post("/register", (req: Request, res: Response) => {
-        return userController.register(req, res)
-    })
+  const userService = new UserService()
+  const userController = new UserController(userService)
 
-    router.post("/login", (req: Request, res: Response) => {
-        return userController.login(req, res)
-    })
+  router.post('/register', (req: Request, res: Response) => {
+    return userController.register(req, res)
+  })
 
-    
-    router.post("/forgot-password", (req: Request, res: Response) => {
-        return userController.forgotPassword(req, res)
-    })
+  router.post('/login', (req: Request, res: Response) => {
+    return userController.login(req, res)
+  })
 
-    router.post("/reset-password", (req: Request, res: Response) => {
-        return userController.resetPassword(req, res)
-    })
+  router.post('/forgot-password', (req: Request, res: Response) => {
+    return userController.forgotPassword(req, res)
+  })
 
-    return router;
-};
+  router.post('/reset-password', (req: Request, res: Response) => {
+    return userController.resetPassword(req, res)
+  })
 
-export default UserRouter;
+  return router
+}
+
+export default UserRouter
