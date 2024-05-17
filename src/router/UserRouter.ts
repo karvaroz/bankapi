@@ -15,7 +15,7 @@ const UserRouter = (): Router => {
     return userController.register(req, res)
   })
 
-  router.post('/login', (req: Request, res: Response) => {
+  router.post('/login', validator(ValidationSchema.LoginSchema), (req: Request, res: Response) => {
     return userController.login(req, res)
   })
 
