@@ -5,11 +5,9 @@ import cors from 'cors'
 
 dotenv.config()
 
-import { errorHandler } from './middlewares/errors'
-import { notFoundHandler } from './middlewares/notFound'
-
 import UserRouter from './router/UserRouter'
 import DbInitializer from './database/init'
+import { errorHandler, notFoundHandler } from './middlewares/index.middleware'
 
 const app = express()
 const PORT = process.env.PORT || 5000
