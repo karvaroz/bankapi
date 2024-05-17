@@ -8,8 +8,14 @@ const RegisterSchema = yup.object({
   email: yup.string().email().lowercase().trim().required()
 })
 
+const LoginSchema = yup.object({
+  email: yup.string().email().lowercase().trim().required(),
+  password: yup.string().min(6).trim().required()
+})
+
 const ValidationSchema = {
-  RegisterSchema
+  RegisterSchema,
+  LoginSchema
 }
 
 export default ValidationSchema
