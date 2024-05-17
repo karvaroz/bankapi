@@ -5,6 +5,7 @@ import { AccountStatus, EmailStatus, UserRole } from '../interfaces/enum/userEnu
 import { IUserCreationBody } from '../interfaces/IUser'
 import Utility from '../utils/index.utils'
 import { ResponseCode } from '../interfaces/enum/codeEnum'
+import jwt from 'jsonwebtoken'
 
 class UserController {
   private userService: UserService
@@ -41,15 +42,37 @@ class UserController {
 
       return Utility.handleSuccess(res, 'User created', { user }, ResponseCode.SUCCESS)
     } catch (error) {
-      res.status(500).json({ message: 'Internal server error', error })
+      return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
     }
   }
 
   async login(req: Request, res: Response) {
     try {
-      res.send('login successfully')
+      const params = { ...req.body }
+      let user = await this.userService.getUserByField({ email: params.email })
+      if (!user) {
+        return Utility.handleError(res, 'Invalid login details', ResponseCode.NOT_FOUND)
+      }
+
+      let isPasswordMatch = await bcrypt.compare(params.password, user.password)
+      if (!isPasswordMatch) {
+        return Utility.handleError(res, 'Invalid login details', ResponseCode.NOT_FOUND)
+      }
+
+      const token = jwt.sign(
+        {
+          id: user.id,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+          role: user.role
+        },
+        process.env.JWT_KEY as string,
+        { expiresIn: '30d' }
+      )
+      return Utility.handleSuccess(res, 'Login successful', { user, token }, ResponseCode.SUCCESS)
     } catch (error) {
-      res.send(error)
+      return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
     }
   }
 
