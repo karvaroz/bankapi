@@ -1,5 +1,19 @@
+import { IFindUserQuery, IUser, IUserCreationBody, IUserDataSource } from '../interfaces/IUser'
+
 class UserService {
-    constructor(){}
+  private userDataSource: IUserDataSource
+
+  constructor(_userDataSource: IUserDataSource) {
+    this.userDataSource = _userDataSource
+  }
+
+  async createUser(record: IUserCreationBody) {
+    return this.userDataSource.create(record)
+  }
+  async getUserByField(record: Partial<IUser>): Promise<IUser | null> {
+    const query = { where: { ...record }, raw: true } as IFindUserQuery
+    return this.userDataSource.fetchOne(query)
+  }
 }
 
-export default UserService;
+export default UserService
