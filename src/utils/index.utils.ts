@@ -8,9 +8,18 @@ const handleSuccess = (res: Response, message: string, data = {}, statusCode: nu
   return res.status(statusCode).json({ status: true, message, data: { ...data } })
 }
 
+const generateCode = (num: number = 15) => {
+  const dateString = Date.now().toString(36)
+  const randomness = Math.random().toString(36).substr(2)
+  let result = randomness + dateString
+  result = result.length > num ? result.substring(0, num) : result
+  return result.toLocaleUpperCase()
+}
+
 const Utility = {
   handleError,
-  handleSuccess
+  handleSuccess,
+  generateCode
 }
 
 export default Utility
