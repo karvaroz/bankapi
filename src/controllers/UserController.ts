@@ -8,6 +8,7 @@ import { ResponseCode } from '../interfaces/enum/codeEnum'
 import jwt from 'jsonwebtoken'
 import TokenService from '../services/TokenService'
 import { IToken } from '../interfaces/IToken'
+import EmailService from '../services/EmailService'
 
 class UserController {
   private userService: UserService
@@ -89,7 +90,7 @@ class UserController {
       }
 
       const token = (await this.tokenService.createForgotPasswordToken(params.email)) as IToken
-      // await EmailService.sendForgotPasswordMail(params.email , token.code)
+      // await EmailService.sendForgotPasswordMail(params.email, token.code)
       return Utility.handleSuccess(res, 'Password reset code has been sent to your mail ', {}, ResponseCode.SUCCESS)
     } catch (error) {
       return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
