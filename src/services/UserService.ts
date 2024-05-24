@@ -14,6 +14,11 @@ class UserService {
     const query = { where: { ...record }, raw: true } as IFindUserQuery
     return this.userDataSource.fetchOne(query)
   }
+
+  async updateRecord(searchBy: Partial<IUser>, record: Partial<IUser>): Promise<void> {
+    const query = { where: { ...searchBy } } as IFindUserQuery
+    await this.userDataSource.updateOne(query, record)
+  }
 }
 
 export default UserService
