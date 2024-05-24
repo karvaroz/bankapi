@@ -6,12 +6,16 @@ import { IUserCreationBody } from '../interfaces/IUser'
 import Utility from '../utils/index.utils'
 import { ResponseCode } from '../interfaces/enum/codeEnum'
 import jwt from 'jsonwebtoken'
+import TokenService from '../services/TokenService'
+import { IToken } from '../interfaces/IToken'
 
 class UserController {
   private userService: UserService
+  private tokenService: TokenService
 
-  constructor(__userService: UserService) {
+  constructor(__userService: UserService, __tokenService: TokenService) {
     this.userService = __userService
+    this.tokenService = __tokenService
   }
 
   async register(req: Request, res: Response) {
@@ -78,9 +82,17 @@ class UserController {
 
   async forgotPassword(req: Request, res: Response) {
     try {
-      res.send('forgotPassword successfully')
+      const params = { ...req.body }
+      let user = await this.userService.getUserByField({ email: params.email })
+      if (!user) {
+        return Utility.handleError(res, 'Account not found', ResponseCode.NOT_FOUND)
+      }
+      const token = (await this.tokenService.createForgotPasswordToken(params.email)) as IToken
+      // await EmailService.senForgotPasswordMail(params.email, token.code)
+
+      return Utility.handleSuccess(res, 'Password reset code has been sent to the email registered', {}, ResponseCode.SUCCESS)
     } catch (error) {
-      res.send(error)
+      return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
     }
   }
 
