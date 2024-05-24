@@ -1,6 +1,21 @@
 import { Response } from 'express'
+import { createLogger, format, transports } from 'winston'
+
+const Logger = createLogger({
+  transports: [
+    new transports.File({
+      filename: './logs/index.log',
+      level: 'error',
+      format: format.combine(
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        format.printf((info) => `${info.timestamp} ${info.level} : ${info.message} `)
+      )
+    })
+  ]
+})
 
 const handleError = (res: Response, message: string, statusCode: number = 400) => {
+  Logger.log({ level: 'error', message })
   return res.status(statusCode).json({ status: false, message })
 }
 
