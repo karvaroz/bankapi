@@ -28,5 +28,5 @@ export interface IUserModel extends Model<IUser, IUserCreationBody>, IUser {}
 
 export interface IUserDataSource {
   fetchOne(query: IFindUserQuery): Promise<IUser | null>
-  create(user: IUserCreationBody): Promise<IUser>
+  create(record: IUserCreationBody): Promise<IUser>
 }
