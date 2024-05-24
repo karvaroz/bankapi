@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken'
 import TokenService from '../services/TokenService'
 import { IToken } from '../interfaces/IToken'
 import EmailService from '../services/EmailService'
+import { differenceInMinutes } from 'date-fns'
 
 class UserController {
   private userService: UserService
@@ -99,9 +100,34 @@ class UserController {
 
   async resetPassword(req: Request, res: Response) {
     try {
-      res.send('resetPassword successfully')
+      const params = { ...req.body }
+      let isValidToken = await this.tokenService.getTokenByField({
+        key: params.email,
+        code: params.code,
+        type: this.tokenService.TokenTypes.FORGOT_PASSWORD,
+        status: this.tokenService.TokenStatus.NOT_USED
+      })
+      if (!isValidToken) {
+        return Utility.handleError(res, 'Token has expired', ResponseCode.NOT_FOUND)
+      }
+
+      if (isValidToken && differenceInMinutes(isValidToken.expires, new Date()) <= 0) {
+        return Utility.handleError(res, 'Token has expired', ResponseCode.NOT_FOUND)
+      }
+
+      let user = await this.userService.getUserByField({ email: params.email })
+      if (!user) {
+        return Utility.handleError(res, 'Invalid User Record', ResponseCode.NOT_FOUND)
+      }
+
+      const _password = bcrypt.hashSync(params.password, 10)
+
+      await this.userService.updateRecord({ id: user.id }, { password: _password })
+      await this.tokenService.updateRecord({ id: isValidToken.id }, { status: this.tokenService.TokenStatus.USED })
+
+      return Utility.handleSuccess(res, 'Password reset successful ', {}, ResponseCode.SUCCESS)
     } catch (error) {
-      res.send(error)
+      return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
     }
   }
 }
