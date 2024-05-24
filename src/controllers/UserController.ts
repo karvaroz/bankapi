@@ -85,12 +85,12 @@ class UserController {
       const params = { ...req.body }
       let user = await this.userService.getUserByField({ email: params.email })
       if (!user) {
-        return Utility.handleError(res, 'Account not found', ResponseCode.NOT_FOUND)
+        return Utility.handleError(res, 'Account does not exist', ResponseCode.NOT_FOUND)
       }
-      const token = (await this.tokenService.createForgotPasswordToken(params.email)) as IToken
-      // await EmailService.senForgotPasswordMail(params.email, token.code)
 
-      return Utility.handleSuccess(res, 'Password reset code has been sent to the email registered', {}, ResponseCode.SUCCESS)
+      const token = (await this.tokenService.createForgotPasswordToken(params.email)) as IToken
+      // await EmailService.sendForgotPasswordMail(params.email , token.code)
+      return Utility.handleSuccess(res, 'Password reset code has been sent to your mail ', {}, ResponseCode.SUCCESS)
     } catch (error) {
       return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
     }
