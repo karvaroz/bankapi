@@ -21,24 +21,25 @@ class TokenService {
     const tokenData = {
       key: email,
       type: this.TokenTypes.FORGOT_PASSWORD,
-      expires: addMinutes(new Date(), this.tokenExpires),
+      expires: addMinutes(new Date(), 5),
       status: this.TokenStatus.NOT_USED
     } as ITokenCreationBody
     let token = await this.createToken(tokenData)
     return token
   }
+
   async createToken(record: ITokenCreationBody) {
     const tokenData = { ...record }
     let validCode = false
     while (!validCode) {
       tokenData.code = Utility.generateCode(6)
       const isCodeExist = await this.getTokenByField({ code: tokenData.code })
-      if (isCodeExist) {
+      if (!isCodeExist) {
         validCode = true
         break
       }
     }
-    return this.tokenDataSource.create(record)
+    return this.tokenDataSource.create(tokenData)
   }
 }
 
