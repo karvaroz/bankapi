@@ -3,7 +3,7 @@ export const EmailStatus = {
   NOT_VERIFIED: 'NOT_VERIFIED'
 }
 
-export const UserRoles = {
+export const UserRole = {
   ADMIN: 'ADMIN',
   EDITOR: 'EDITOR',
   CUSTOMER: 'CUSTOMER'
