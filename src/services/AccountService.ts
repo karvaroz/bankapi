@@ -1,5 +1,5 @@
 import AccountDataSource from '../database/datasources/accountDataSource'
-import { IAccountCreationBody } from '../interfaces/IAccount'
+import { IAccount, IAccountCreationBody, IFindAccountQuery } from '../interfaces/IAccount'
 import { AccountStatus } from '../interfaces/enum/userEnum'
 
 class AccountService {
@@ -39,6 +39,19 @@ class AccountService {
     } as IAccountCreationBody
 
     return this.accountDataSource.create(record)
+  }
+
+  async getAccountsByUserId(userId: string) {
+    const query = { where: { userId }, raw: true }
+    return this.accountDataSource.fetchAll(query)
+  }
+
+  async getAccountByField(record: Partial<IAccount>) {
+    const query = {
+      where: { ...record },
+      raw: true
+    } as IFindAccountQuery
+    return this.accountDataSource.fetchOne(query)
   }
 }
 
