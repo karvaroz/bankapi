@@ -1,5 +1,4 @@
 import express, { Router, Request, Response } from 'express'
-
 import { Auth, validator } from '../middlewares/index.middleware'
 import ValidationSchema from '../validators/accountSchemaValidator'
 import AccountService from '../services/AccountService'
