@@ -10,7 +10,7 @@ import TokenDataSource from '../database/datasources/tokenDataSource'
 
 const router = express.Router()
 const tokenService = new TokenService(new TokenDataSource())
-const userService = new UserService(new UserDataSource())
+export const userService = new UserService(new UserDataSource())
 const userController = new UserController(userService, tokenService)
 
 const UserRouter = (): Router => {
