@@ -5,6 +5,7 @@ import { ResponseCode } from '../interfaces/enum/codeEnum'
 import { IUser } from '../interfaces/IUser'
 import jwt from 'jsonwebtoken'
 import { AccountStatus } from '../interfaces/enum/userEnum'
+import { userService } from '../router/UserRouter'
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(`[${new Date().toISOString()}] ${req.method} ${req.url} - ${err.message}`)
