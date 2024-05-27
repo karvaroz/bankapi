@@ -3,14 +3,16 @@ export const EmailStatus = {
   NOT_VERIFIED: 'NOT_VERIFIED'
 }
 
-export const UserRole = {
+export const UserRoles = {
   ADMIN: 'ADMIN',
-  CUSTOMER: 'CUSTOMER',
-  EDITOR: 'EDITOR'
+  EDITOR: 'EDITOR',
+  CUSTOMER: 'CUSTOMER'
 }
 
 export const AccountStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
-  SUSPENDED: 'SUSPENDED'
+  SUSPENDED: 'SUSPENDED',
+  FROZEN: 'FROZEN',
+  DELETED: 'DELETED'
 }
