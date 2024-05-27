@@ -1,3 +1,4 @@
+import { Request, Response } from 'express'
 import { ResponseCode } from '../interfaces/enum/codeEnum'
 import AccountService from '../services/AccountService'
 import Utility from '../utils/index.utils'
