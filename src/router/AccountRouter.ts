@@ -14,6 +14,14 @@ const AccountRouter = (): Router => {
     return accountController.createAccount(req, res)
   })
 
+  router.get('/account-list', Auth(), (req: Request, res: Response) => {
+    return accountController.getAllUserAccounts(req, res)
+  })
+
+  router.get('/:id', Auth(), (req: Request, res: Response) => {
+    return accountController.getUserAccount(req, res)
+  })
+
   return router
 }
 
