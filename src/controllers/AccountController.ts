@@ -10,18 +10,18 @@ class AccountController {
   }
 
   async createAccount(req: Request, res: Response) {
-    // try {
-    //   const params = { ...req.body }
-    //   const newAccount = {
-    //     userId: params.user.id,
-    //     type: params.type
-    //   }
-    //   let account = await this.accountService.createAccount(newAccount)
-    //   return Utility.handleSuccess(res, 'Account created successfully', { account }, ResponseCode.SUCCESS)
-    //   // return Utility.handleSuccess(res, 'Login successful', { user, token }, ResponseCode.SUCCESS)
-    // } catch (error) {
-    //   return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
-    // }
+    try {
+      const params = { ...req.body }
+      const newAccount = {
+        userId: params.user.id,
+        type: params.type
+      }
+
+      let account = await this.accountService.createAccount(newAccount)
+      return Utility.handleSuccess(res, 'Account created successfully', { account }, ResponseCode.SUCCESS)
+    } catch (error) {
+      return Utility.handleError(res, (error as TypeError).message, ResponseCode.SERVER_ERROR)
+    }
   }
 }
 
