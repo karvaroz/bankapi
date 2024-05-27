@@ -6,6 +6,8 @@ import cors from 'cors'
 dotenv.config()
 
 import UserRouter from './router/UserRouter'
+import AccountRouter from './router/AccountRouter'
+
 import DbInitializer from './database/init'
 import { errorHandler, notFoundHandler } from './middlewares/index.middleware'
 
@@ -18,6 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use('/api/user', UserRouter())
+app.use('/api/account', AccountRouter())
 
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ message: 'Server is up and running!' })
