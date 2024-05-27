@@ -14,6 +14,10 @@ const Logger = createLogger({
   ]
 })
 
+const EscapeHtml = (html: string) => {
+  return html.replace(/[&<>"']/g, '')
+}
+
 const IsEmpty = (data: any) => {
   return !data || data.length === 0 || typeof data === 'undefined' || data == null || Object.keys(data).length === 0
 }
@@ -39,7 +43,8 @@ const Utility = {
   handleError,
   handleSuccess,
   generateCode,
-  IsEmpty
+  IsEmpty,
+  EscapeHtml
 }
 
 export default Utility
