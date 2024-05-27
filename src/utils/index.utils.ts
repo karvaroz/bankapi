@@ -14,6 +14,10 @@ const Logger = createLogger({
   ]
 })
 
+const IsEmpty = (data: any) => {
+  return !data || data.length === 0 || typeof data === 'undefined' || data == null || Object.keys(data).length === 0
+}
+
 const handleError = (res: Response, message: string, statusCode: number = 400) => {
   Logger.log({ level: 'error', message })
   return res.status(statusCode).json({ status: false, message })
@@ -34,7 +38,8 @@ const generateCode = (num: number = 15) => {
 const Utility = {
   handleError,
   handleSuccess,
-  generateCode
+  generateCode,
+  IsEmpty
 }
 
 export default Utility
