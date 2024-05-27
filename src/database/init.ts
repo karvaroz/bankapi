@@ -1,3 +1,4 @@
+import AccountModel from '../models/AccountModel'
 import TokenModel from '../models/TokenModel'
 import UserModel from '../models/UserModel'
 
@@ -8,6 +9,7 @@ const DbInitializer = async () => {
     await Db.authenticate()
     UserModel.sync({ alter: false })
     TokenModel.sync({ alter: false })
+    AccountModel.sync({ alter: false })
     console.log('Connection to database initialized')
   } catch (error) {
     console.error('Unable to connect to the database:', error)
